@@ -1,0 +1,76 @@
+package templates
+
+import "fmt"
+
+templ Chat(models []string) {
+  <div
+    id="chat-window"
+    class="w-full h-full p-4 flex flex-col justify-end"
+    hx-ext="ws"
+    ws-connect="/ws/messages">
+    <div class="w-full p-2 flex flex-row align-center justify-center">
+      <select name="models">
+        for _, v := range models {
+          <option value={v}>{v}</option>
+        }
+      </select>
+    </div>
+    <div class="hidden chat-end chat-start"/>
+    <div id="messages" class="w-full h-full flex flex-col justify-end p-4 overflow-scroll">
+      // for _, v := range m {
+      //   @Message(v, claims)
+      // }
+    </div>
+    <div id="action-bar" class="w-full flex flex-col justify-center">
+      <div class="w-full">
+        <form ws-send hx-on::ws-after-send="document.getElementById('messageInput').value = ''">
+          // <label class="input input-bordered">
+            <input id="messageInput" class="w-full input input-bordered" type="text" placeholder="Type here" name="message"/>
+            // <button class="btn btn-circle">
+            //   <i data-feather="arrow-up"></i>
+            // </button>
+          // </label>
+        </form>
+      </div>
+    </div>
+    <script class="hidden">
+      feather.replace()
+    </script>
+  </div>
+}
+
+templ MessageOOB(text string, position string, id string) {
+  <div
+    id="messages"
+    hx-swap-oob="beforeend">
+    @Message(text, position, id)
+  </div>
+}
+
+templ MessageContentOOB(text string, id string) {
+  <md-block
+    id={fmt.Sprintf("message-content-%s", id)}
+    hx-swap-oob="true">
+    {text}
+  </md-block>
+}
+
+templ Message(text string, position string, id string) {
+  <div class={fmt.Sprintf("chat chat-%s", position)}>
+    // <div class="chat-image avatar placeholder">
+    //   <div class="bg-neutral text-neutral-content w-10 rounded-full">
+    //     <span class="text-3xl">test</span>
+    //   </div>
+    // </div>
+    // <div class="chat-header">
+    //   { "test" }
+    // </div>
+    <div class="chat-bubble">
+      {text}
+      if id != "" {
+      <md-block class="loading loading-dots" id={fmt.Sprintf("message-content-%s", id)}></md-block>
+      }
+    </div>
+    <div class="chat-footer opacity-50"></div>
+  </div>
+}
