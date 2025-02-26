@@ -9,7 +9,7 @@ import (
 
 func HandleChat() api.HandlerFuncWithError {
 	return func(w http.ResponseWriter, r *http.Request) *api.ApiError {
-		templates.Chat().Render(r.Context(), w)
+		templates.Chat(nil).Render(r.Context(), w)
 
 		return nil
 	}

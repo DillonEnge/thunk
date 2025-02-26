@@ -1,19 +1,22 @@
 package templates
 
-import "fmt"
+import (
+  "fmt"
+)
 
 templ Chat(models []string) {
   <div
     id="chat-window"
-    class="w-full h-full p-4 flex flex-col justify-end"
+    class="w-full lg:w-1/2 h-full p-4 flex flex-col justify-end"
     hx-ext="ws"
     ws-connect="/ws/messages">
     <div class="w-full p-2 flex flex-row align-center justify-center">
-      <select name="models">
-        for _, v := range models {
-          <option value={v}>{v}</option>
-        }
-      </select>
+      <span class="text-md text-slate-400 font-semibold">Phi4:14b</span>
+      // <select name="models">
+      //   for _, v := range models {
+      //     <option value={v}>{v}</option>
+      //   }
+      // </select>
     </div>
     <div class="hidden chat-end chat-start"/>
     <div id="messages" class="w-full h-full flex flex-col justify-end p-4 overflow-scroll">
@@ -24,12 +27,9 @@ templ Chat(models []string) {
     <div id="action-bar" class="w-full flex flex-col justify-center">
       <div class="w-full">
         <form ws-send hx-on::ws-after-send="document.getElementById('messageInput').value = ''">
-          // <label class="input input-bordered">
+          <div class="flex items-center w-full">
             <input id="messageInput" class="w-full input input-bordered" type="text" placeholder="Type here" name="message"/>
-            // <button class="btn btn-circle">
-            //   <i data-feather="arrow-up"></i>
-            // </button>
-          // </label>
+          </div>
         </form>
       </div>
     </div>
@@ -68,7 +68,7 @@ templ Message(text string, position string, id string) {
     <div class="chat-bubble">
       {text}
       if id != "" {
-      <md-block class="loading loading-dots" id={fmt.Sprintf("message-content-%s", id)}></md-block>
+        <md-block class="loading loading-dots" id={fmt.Sprintf("message-content-%s", id)}></md-block>
       }
     </div>
     <div class="chat-footer opacity-50"></div>

@@ -3,7 +3,7 @@ package templates
 templ body() {
   <div
     id="inner-content"
-    class="overflow-auto flex-1">
+    class="overflow-auto flex-1 flex flex-col justify-center items-center">
     <span
       class="loading loading-dots loading-lg"
       hx-get="/chat"
@@ -24,6 +24,11 @@ templ head() {
     <script src="https://unpkg.com/feather-icons"></script>
     <script type="module" src="https://md-block.verou.me/md-block.js"></script>
     <script src="./static/mount.js"></script>
+    <style>
+      pre{
+        overflow: scroll;
+      }
+    </style>
 }
 
 templ Base() {
